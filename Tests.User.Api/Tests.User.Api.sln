@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.User.Api", "\Mac\Home\Documents\apps\yesssgroup\net\tests\tests.user.api\Tests.User.Api\Tests.User.Api\Tests.User.Api.csproj", "{04D394A2-554B-46A6-88DE-E3E69AA2E640}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.User.Api", "Tests.User.Api\Tests.User.Api.csproj", "{04D394A2-554B-46A6-88DE-E3E69AA2E640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.User.Api.Test", "\Mac\Home\Documents\apps\yesssgroup\net\tests\tests.user.api\Tests.User.Api\Tests.User.Api.Test\Tests.User.Api.Test.csproj", "{BBB775FA-ADD3-411B-B84E-CD86365FB05C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.User.Api.Test", "Tests.User.Api.Test\Tests.User.Api.Test.csproj", "{BBB775FA-ADD3-411B-B84E-CD86365FB05C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

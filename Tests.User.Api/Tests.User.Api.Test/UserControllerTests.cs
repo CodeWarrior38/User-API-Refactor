@@ -1,25 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Tests.User.Api.Controllers;
+using Tests.User.Api.Models;
+using Tests.User.Api.Services;
 
 namespace Tests.User.Api.Test
 {
     public class UserControllerTests
     {
+        private readonly UserController _controller;
+        private readonly IUserService _db;
+
+        public UserControllerTests( IUserService db)
+        {            
+            _controller = new UserController(db);
+            _db = db;
+        }
+
         [Fact]
         public async Task Should_Return_User_When_Valid_Id_Passed()
         {
-            DatabaseContext database = new DatabaseContext();
-            Models.User user = new Models.User
+            CreateUserDto user = new CreateUserDto
             {
                 FirstName = "Test",
                 LastName = "User",
-                Age = "20"
+                DateOfBirth = new DateTime(1977, 03, 17)
             };
-            database.Users.Add(user);
-            database.SaveChanges();
 
-            UserController controller = new UserController();
-            IActionResult result = controller.Get(user.Id);
+            var savedUser = await _db.CreateAsync(user);            
+
+            IActionResult result = await _controller.Get(savedUser.Id);
             OkObjectResult ok = result as OkObjectResult;           
 
             Assert.NotNull(ok);
@@ -29,8 +39,14 @@ namespace Tests.User.Api.Test
         [Fact]
         public async Task Should_Return_Valid_When_User_Created()
         {
-            UserController controller = new UserController();
-            IActionResult result = controller.Create("Test", "User", "20");
+            CreateUserDto userToCreate = new CreateUserDto()
+            {
+                FirstName = "Test",
+                LastName = "User",
+                DateOfBirth = new DateTime(1977,03,17)
+            };
+
+            IActionResult result = await _controller.Create(userToCreate);
 
             OkResult ok = result as OkResult;
 
@@ -41,18 +57,23 @@ namespace Tests.User.Api.Test
         [Fact]
         public async Task Should_Return_Valid_When_User_Updated()
         {
-            DatabaseContext database = new DatabaseContext();
-            Models.User user = new Models.User
+            CreateUserDto user = new CreateUserDto
             {
                 FirstName = "Test",
                 LastName = "User",
-                Age = "20"
+                DateOfBirth = new DateTime(1977, 03, 17)
             };
-            database.Users.Add(user);
-            database.SaveChanges();
 
-            UserController controller = new UserController();
-            IActionResult result = controller.Update(user.Id, "Updated", "User", "21");
+            var addedUser = await _db.CreateAsync(user);
+
+            UpdateUserDto updateUser = new UpdateUserDto()
+            {
+                FirstName = "Updated",
+                LastName = "User",
+                DateOfBirth = new DateTime(1977, 03, 17)
+            };
+
+            IActionResult result = await _controller.Update(addedUser.Id, updateUser);
 
             OkResult ok = result as OkResult;
 
@@ -63,18 +84,16 @@ namespace Tests.User.Api.Test
         [Fact]
         public async Task Should_Return_Valid_When_User_Removed()
         {
-            DatabaseContext database = new DatabaseContext();
-            Models.User user = new Models.User
+            CreateUserDto user = new CreateUserDto
             {
                 FirstName = "Test",
                 LastName = "User",
-                Age = "20"
+                DateOfBirth = new DateTime(1977, 03, 17)
             };
-            database.Users.Add(user);
-            database.SaveChanges();
 
-            UserController controller = new UserController();
-            IActionResult result = controller.Delete(user.Id);
+            var addedUser = await _db.CreateAsync(user);
+
+            IActionResult result = await _controller.Delete(addedUser.Id);
 
             OkResult ok = result as OkResult;
 
